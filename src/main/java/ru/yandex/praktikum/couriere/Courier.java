@@ -1,4 +1,4 @@
-package ru.yandex.praktikum.model;
+package ru.yandex.praktikum.couriere;
 
 public class Courier {
     private String login;
@@ -42,5 +42,6 @@ public class Courier {
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
+
 
 }

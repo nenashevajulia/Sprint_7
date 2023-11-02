@@ -1,6 +1,5 @@
 
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
@@ -10,15 +9,14 @@ import ru.yandex.praktikum.Config;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.notNullValue;
-import static ru.yandex.praktikum.Config.GET_ORDERS;
-import static ru.yandex.praktikum.Config.ORDERS;
+import static ru.yandex.praktikum.Config.*;
 
 public class ListOrderTest {
 
 
     @Before
     public void setUp() {
-        RestAssured.baseURI = Config.getBaseUri();
+        Config.start();
     }
 
     @Test
@@ -27,6 +25,7 @@ public class ListOrderTest {
         Response response =
                 given()
                         .contentType(ContentType.JSON)
+                        .baseUri(BASE_URI)
                         .and()
                         .queryParam("limit", 10)
                         .queryParam("page", 0)

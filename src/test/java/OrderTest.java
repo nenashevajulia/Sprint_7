@@ -3,8 +3,8 @@ import io.restassured.RestAssured;
 import io.restassured.response.ValidatableResponse;
 import org.apache.http.HttpStatus;
 import ru.yandex.praktikum.Config;
-import ru.yandex.praktikum.model.Order;
-import ru.yandex.praktikum.OrderCreate;
+import ru.yandex.praktikum.order.Order;
+import ru.yandex.praktikum.order.OrderResponse;
 import org.hamcrest.MatcherAssert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +14,6 @@ import org.junit.runners.Parameterized;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static ru.yandex.praktikum.Config.ORDERS;
 
 @RunWith(Parameterized.class)
 public class OrderTest {
@@ -52,18 +51,18 @@ public class OrderTest {
 
     @Before
     public void setUp() {
-        RestAssured.baseURI = Config.getBaseUri();
+        Config.start();
     }
 
     @DisplayName("Создание заказа")
     @Test
     public void createOrderTest() {
-        OrderCreate orderCreate = new OrderCreate();
+        OrderResponse orderCreate = new OrderResponse();
         ValidatableResponse emptyPasswordField = orderCreate.getOrderCreate(
                 new Order(firstNameValue, lastNameValue, addressValue,
                         metroStationValue, phoneValue, rentTimeValue, deliveryDateValue, commentValue, colorValue));
         emptyPasswordField
                 .statusCode(HttpStatus.SC_CREATED);
-        MatcherAssert.assertThat(ORDERS, notNullValue());
+        MatcherAssert.assertThat("track", notNullValue());
     }
 }

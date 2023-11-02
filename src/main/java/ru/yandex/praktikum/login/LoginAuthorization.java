@@ -1,9 +1,9 @@
-package ru.yandex.praktikum;
+package ru.yandex.praktikum.login;
 
 import io.qameta.allure.Step;
 import org.apache.commons.lang3.RandomStringUtils;
-import ru.yandex.praktikum.model.Courier;
-import ru.yandex.praktikum.model.Login;
+import ru.yandex.praktikum.couriere.Courier;
+import ru.yandex.praktikum.login.Login;
 
 public class LoginAuthorization {
     private static final String LOGIN = RandomStringUtils.randomAlphanumeric(5);
