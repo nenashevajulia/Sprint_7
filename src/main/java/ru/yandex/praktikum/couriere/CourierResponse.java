@@ -6,6 +6,7 @@ import io.restassured.response.Response;
 import ru.yandex.praktikum.login.Login;
 
 import static io.restassured.RestAssured.given;
+import static ru.yandex.praktikum.couriere.CourierCreating.getTestCourier;
 
 public class CourierResponse {
     public static final String COURIER = "/api/v1/courier";
@@ -13,21 +14,17 @@ public class CourierResponse {
 
     @Step("Создание курьера")
     public Response getCourierResponse(Courier courier) {
-        return given()
-                .contentType(ContentType.JSON)
-                .and()
-                .body(courier)
-                .when()
-                .post(COURIER);
+        return given().contentType(ContentType.JSON).and().body(courier).when().post(COURIER);
     }
 
     @Step("Авторизация курьера")
     public Response getLoginResponse(Login login) {
-        return given()
-                .contentType(ContentType.JSON)
-                .and()
-                .body(login)
-                .when()
-                .post(COURIER_LOGIN);
+        return given().contentType(ContentType.JSON).and().body(login).when().post(COURIER_LOGIN);
+    }
+
+    @Step("Создание курьера с определенными значениями")
+    public void getTestCourierResponse() {
+        Courier testCourier = getTestCourier();
+        given().contentType(ContentType.JSON).and().body(testCourier).when().post(COURIER);
     }
 }

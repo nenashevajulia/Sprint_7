@@ -1,6 +1,7 @@
 package ru.yandex.praktikum;
 
 import io.restassured.RestAssured;
+
 public class Config {
     public static final String BASE_URI = "http://qa-scooter.praktikum-services.ru";
 

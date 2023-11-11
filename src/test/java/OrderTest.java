@@ -1,5 +1,4 @@
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
 import io.restassured.response.ValidatableResponse;
 import org.apache.http.HttpStatus;
 import ru.yandex.praktikum.Config;
@@ -41,12 +40,7 @@ public class OrderTest {
 
     @Parameterized.Parameters
     public static Object[][] getTestDataCreateOrder() {
-        return new Object[][]{
-                {"Никитин", "Герман", "Саринский пр-д, 95", 4, "+79874563259", 5, "05.09.2023", "комментарий заказа", null},
-                {"Никитин", "Герман", "Саринский пр-д, 95", 4, "+79874563259", 5, "05.09.2023", "комментарий заказа", List.of("BLACK")},
-                {"Никитин", "Герман", "Саринский пр-д, 95", 4, "+79874563259", 5, "05.09.2023", "комментарий заказа", List.of("GREY")},
-                {"Никитин", "Герман", "Саринский пр-д, 95", 4, "+79874563259", 5, "05.09.2023", "комментарий заказа", List.of("BLACK", "GREY")},
-        };
+        return new Object[][]{{"Никитин", "Герман", "Саринский пр-д, 95", 4, "+79874563259", 5, "05.09.2023", "комментарий заказа", null}, {"Никитин", "Герман", "Саринский пр-д, 95", 4, "+79874563259", 5, "05.09.2023", "комментарий заказа", List.of("BLACK")}, {"Никитин", "Герман", "Саринский пр-д, 95", 4, "+79874563259", 5, "05.09.2023", "комментарий заказа", List.of("GREY")}, {"Никитин", "Герман", "Саринский пр-д, 95", 4, "+79874563259", 5, "05.09.2023", "комментарий заказа", List.of("BLACK", "GREY")},};
     }
 
     @Before
@@ -58,11 +52,8 @@ public class OrderTest {
     @Test
     public void createOrderTest() {
         OrderResponse orderCreate = new OrderResponse();
-        ValidatableResponse emptyPasswordField = orderCreate.getOrderCreate(
-                new Order(firstNameValue, lastNameValue, addressValue,
-                        metroStationValue, phoneValue, rentTimeValue, deliveryDateValue, commentValue, colorValue));
-        emptyPasswordField
-                .statusCode(HttpStatus.SC_CREATED);
+        ValidatableResponse emptyPasswordField = orderCreate.getOrderCreate(new Order(firstNameValue, lastNameValue, addressValue, metroStationValue, phoneValue, rentTimeValue, deliveryDateValue, commentValue, colorValue));
+        emptyPasswordField.statusCode(HttpStatus.SC_CREATED);
         MatcherAssert.assertThat("track", notNullValue());
     }
 }

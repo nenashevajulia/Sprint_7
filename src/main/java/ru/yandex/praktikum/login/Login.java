@@ -4,7 +4,7 @@ public class Login {
     private String login;
     private String password;
 
-    public Login() {
+    public Login(String login, String password) {
     }
 
     public String getLogin() {
