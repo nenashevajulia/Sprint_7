@@ -10,6 +10,7 @@ import ru.yandex.praktikum.couriere.CourierResponse;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static ru.yandex.praktikum.couriere.CourierCreating.*;
+import static ru.yandex.praktikum.couriere.RemoveCourier.getId;
 import static ru.yandex.praktikum.couriere.RemoveCourier.removeCourier;
 
 
@@ -20,12 +21,12 @@ public class CourierTest {
     private static final String EXISTING_LOGIN = "Этот логин уже используется. Попробуйте другой.";
     private static final String NO_DATA = "Недостаточно данных для создания учетной записи";
     private final CourierResponse courierResponse = new CourierResponse();
+    int id;
 
 
     @Before
     public void setUp() {
         Config.start();
-        courierResponse.getTestCourierResponse();
     }
 
 
@@ -35,14 +36,17 @@ public class CourierTest {
         Courier courier = getCourier();
         Response response = courierResponse.getCourierResponse(courier);
         response.then().assertThat().statusCode(HttpStatus.SC_CREATED).and().body(OK, equalTo(true));
+        id = getId(courier);
     }
 
     @Test
     @DisplayName("Проверка создания двух одинаковых курьеров")
     public void checkCourierDuplicateCreating() {
+        courierResponse.getTestCourierResponse();
         Courier courier = new Courier(LOGIN, PASSWORD, NAME);
         Response response = courierResponse.getCourierResponse(courier);
         response.then().assertThat().statusCode(HttpStatus.SC_CONFLICT).and().body(MESSAGE, equalTo(EXISTING_LOGIN));
+        id = getId(courier);
     }
 
 
@@ -64,6 +68,8 @@ public class CourierTest {
 
     @After
     public void remove() {
-        removeCourier();
+        if (id != 0) {
+            removeCourier(id);
+        }
     }
 }

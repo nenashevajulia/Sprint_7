@@ -44,6 +44,4 @@ public class CourierCreating {
         courier.setFirstName(NAME);
         return courier;
     }
-
-
 }

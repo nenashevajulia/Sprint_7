@@ -10,6 +10,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static ru.yandex.praktikum.couriere.CourierCreating.getTestCourier;
+import static ru.yandex.praktikum.couriere.RemoveCourier.getId;
 import static ru.yandex.praktikum.couriere.RemoveCourier.removeCourier;
 import static ru.yandex.praktikum.login.LoginAuthorization.*;
 
@@ -25,22 +26,23 @@ public class LoginTest {
     public static final String COURIER_NOT_FOUND = "Учетная запись не найдена";
     public static final String NO_DATA = "Недостаточно данных для входа";
     private final CourierResponse courierResponse = new CourierResponse();
+    int id;
 
     @Before
     public void setUp() {
         Config.start();
-        courierResponse.getTestCourierResponse();
     }
 
 
     @Test
     @DisplayName("Авторизация курьера")
     public void checkCourierAuthorization() {
+        courierResponse.getTestCourierResponse();
         Courier courier = getTestCourier();
-        courierResponse.getCourierResponse(getTestCourier());
         Login login = courierAuthorization(courier);
         Response response = courierResponse.getLoginResponse(login);
         response.then().assertThat().statusCode(HttpStatus.SC_OK).and().body(ID, allOf(notNullValue(), greaterThan(0)));
+        id = getId(courier);
     }
 
     @Test
@@ -61,7 +63,9 @@ public class LoginTest {
 
     @After
     public void remove() {
-        removeCourier();
+        if (id != 0) {
+            removeCourier(id);
+        }
     }
 }
 
